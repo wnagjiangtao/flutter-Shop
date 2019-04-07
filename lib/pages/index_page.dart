@@ -13,6 +13,8 @@ class IndexPage extends StatefulWidget {
 
 class _IndexPageState extends State<IndexPage> {
 
+  PageController _pageController;
+
   final List<BottomNavigationBarItem> bottomTabs = [
     BottomNavigationBarItem(
       title:Text('首页'),
@@ -32,7 +34,7 @@ class _IndexPageState extends State<IndexPage> {
     ),
   ];
 
-   final List tabBodies = [
+   final List<Widget> tabBodies = [
     HomePage(),
     CategoryPage(),
     CartPage(),
@@ -42,9 +44,32 @@ class _IndexPageState extends State<IndexPage> {
   int currentIndex = 0;
   var currentPage;
   
-  @override
-  void initState() { 
-    currentPage = tabBodies[currentIndex];
+  // @override
+  // void initState() { 
+  //   currentPage = tabBodies[currentIndex];
+  //   _pageController = new PageController()..addListener((){
+  //     if(currentPage != _pageController.page.round() ){
+  //     setState(() {
+  //      currentPage = _pageController.page.round(); 
+  //     });
+  //     }
+  //     }
+  //   );
+
+  //   super.initState();
+  // }
+
+    @override
+  void initState() {
+   currentPage=tabBodies[currentIndex];
+   _pageController=new PageController()
+      ..addListener(() {
+        if (currentPage != _pageController.page.round()) {
+          setState(() {
+            currentPage = _pageController.page.round();
+          });
+        }
+  });
     super.initState();
   }
 
@@ -63,7 +88,10 @@ class _IndexPageState extends State<IndexPage> {
            });
          },
        ),
-       body: currentPage,
+      body: IndexedStack(
+        index: currentIndex,
+        children: tabBodies
+      ),
     );
   }
 }
