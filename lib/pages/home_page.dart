@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   
   int page =1;
   List<Map> hotGoodsList = [];
-   GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
+  GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
 
     void _getHotGoods(){
     var formPage = {'page':page};
@@ -276,7 +276,7 @@ class Recommend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(380),
+      height: ScreenUtil().setHeight(500),
       margin: EdgeInsets.all(10.0),
       child: Column(
         children: <Widget>[
@@ -309,7 +309,7 @@ class Recommend extends StatelessWidget {
       onTap: (){},
       child: Container(
         height: ScreenUtil().setHeight(330),
-        width: ScreenUtil().setWidth(250),
+        width: ScreenUtil().setWidth(260),
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -319,7 +319,7 @@ class Recommend extends StatelessWidget {
         ),
         child: Column(
           children: <Widget>[
-            Image.network(recommendList[index]['image']),
+            Image.network(recommendList[index]['image'],height: ScreenUtil().setHeight(300),),
             Text('￥${recommendList[index]['mallPrice']}'),
             Text(
               '￥${recommendList[index]['price']}',
@@ -336,7 +336,7 @@ class Recommend extends StatelessWidget {
 
   Widget _recommendList(){
     return Container(
-      height: ScreenUtil().setHeight(330),
+      height: ScreenUtil().setHeight(430),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: recommendList.length,
