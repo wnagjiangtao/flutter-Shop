@@ -4,11 +4,12 @@ import 'dart:convert';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provide/provide.dart';
 import '../provide/child_category.dart';
+import '../provide/category_goods_list.dart';
 
 import '../model/category.dart';
+import '../model/categoryGoodsList.dart';
 
 class CategoryPage extends StatelessWidget {
-
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class CategoryPage extends StatelessWidget {
           LeftCategoryNav(),
           Column(children: <Widget>[
             RightCategoryNav(),
+            CategoryGoodsList()
           ],)
         ],
       ),
@@ -53,9 +55,24 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
     });
   }
 
+  void _getGoodList({String categoryId})async{
+    var data = {
+      'categoryId':categoryId==null?'4':categoryId,
+      'categorySubId':"",
+      'page':1
+    };
+    await request('getMallGoods',formData: data).then((val){
+      var data = json.decode(val.toString());
+      CategoryGoodsListModel goodsList = CategoryGoodsListModel.fromJson(data);      
+
+      Provide.value<CategoryGoodsListProvide>(context).getGoodsList(goodsList.data);
+    });
+  }
+
   @override
   void initState() {
     _getCategory();
+    _getGoodList();
     super.initState();
   }
 
@@ -89,8 +106,10 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
          listIndex = index; 
         });
         var childList = list[index].bxMallSubDto;
+        var categoryId = list[index].mallCategoryId;
 
         Provide.value<ChildCategory>(context).getChildCategory(childList);
+        _getGoodList(categoryId:categoryId);
       },
       child: Container(
         height: ScreenUtil().setHeight(100),
@@ -151,4 +170,99 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
     );
   }
 
+}
+
+
+class CategoryGoodsList extends StatefulWidget {
+  @override
+  _CategoryGoodsListState createState() => _CategoryGoodsListState();
+}
+
+class _CategoryGoodsListState extends State<CategoryGoodsList> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Provide<CategoryGoodsListProvide>(
+      builder: (context,child,data){
+        return Container(
+          width: ScreenUtil().setWidth(570),
+          height: ScreenUtil().setHeight(975),
+          child: ListView.builder(
+            itemCount: data.goodsList.length,
+            itemBuilder: (context,index){
+              return _listWidget(data.goodsList,index);
+            },
+          ),
+      ); 
+      },
+    );
+
+  }
+
+  Widget _goodsImage(List newList,index){
+    return Container(
+      width: ScreenUtil().setWidth(200),
+      child: Image.network(newList[index].image),
+    );
+  }
+
+  Widget _goodsName(List newList,index){
+    return Container(
+      padding: EdgeInsets.all(5.0),
+      width: ScreenUtil().setWidth(370),
+      child: Text(
+        newList[index].goodsName,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: ScreenUtil().setSp(28)),
+      ),
+    );
+  }
+
+  Widget _goodsPrice(List newList,index){
+    return Container(
+      margin: EdgeInsets.only(top: 20),
+      width: ScreenUtil().setWidth(370),
+      child: Row(children: <Widget>[
+        Text(
+          '价格:￥${newList[index].presentPrice}',
+          style: TextStyle(fontSize: ScreenUtil().setSp(30)),
+        ),
+        Text(
+          '￥${newList[index].oriPrice}',
+          style: TextStyle(
+            color: Colors.black26,
+            decoration: TextDecoration.lineThrough,
+          ),
+        )
+      ],),
+    );
+  }
+
+
+  Widget _listWidget(List newList,int index){
+    return InkWell(
+      onTap: (){},
+      child: Container(
+        padding: EdgeInsets.only(top: 5.0,bottom: 5.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            bottom: BorderSide(width: 1.0,color: Colors.black12)
+          )
+        ),
+        child: Row(
+          children: <Widget>[
+            _goodsImage(newList,index),
+            Column(
+              children: <Widget>[
+                _goodsName(newList,index),
+                _goodsPrice(newList,index)
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
