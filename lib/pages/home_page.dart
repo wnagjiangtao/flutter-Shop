@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   
   int page =1;
   List<Map> hotGoodsList = [];
-  GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
+   GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
 
     void _getHotGoods(){
     var formPage = {'page':page};
