@@ -8,6 +8,8 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'ad_banner.dart';
 import '../service/service_method.dart';
 
+import '../routers/application.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -139,7 +141,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     if(hotGoodsList.length !=0){
       List<Widget> listWidget = hotGoodsList.map((val){
         return InkWell(
-          onTap: (){print('点击了火爆专区');},
+          onTap: (){
+            print('点击了火爆专区');
+            Application.router.navigateTo(context,'/detail?id=${val['goodsId']}');
+            },
           child: Container(
             width: ScreenUtil().setWidth(355),
             color: Colors.white,
