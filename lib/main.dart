@@ -7,6 +7,7 @@ import './pages/index_page.dart';
 import './provide/counter.dart';
 import './provide/child_category.dart';
 import './provide/category_goods_list.dart';
+import './provide/details_info.dart';
 
 
 import './routers/routes.dart';
@@ -17,14 +18,16 @@ import './routers/application.dart';
 // void main() => runApp(MyApp());
 
 void main(){
-  var counter = Counter();
   var providers = Providers();
+  var counter = Counter();
   var categoryGoodsListProvide = CategoryGoodsListProvide();
   var childCategory = ChildCategory();
+  var detailsInfoProvide = DetailsInfoProvide();
   providers
     ..provide(Provider<Counter>.value(counter))
     ..provide(Provider<ChildCategory>.value(childCategory))
     ..provide(Provider<CategoryGoodsListProvide>.value(categoryGoodsListProvide));
+    // ..provide(Provider<DetailsInfoProvide>.value(detailsInfoProvide));
   runApp(ProviderNode(child: MyApp(),providers: providers,));
 }
 

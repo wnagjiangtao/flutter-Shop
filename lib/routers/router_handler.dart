@@ -5,7 +5,7 @@ import 'package:fluro/fluro.dart';
 Handler detaislHandler = Handler(
   handlerFunc: (BuildContext context,Map<String,List<String>>params){
     String goodsId = params['id'].first;
-    print('${goodsId}');
+    print('$goodsId');
     return DetailsPage(goodsId);
   }
 );
