@@ -3,6 +3,9 @@ import 'package:provide/provide.dart';
 
 import '../provide/details_info.dart';
 import './details_page/details_top_area.dart';
+import './details_page/details_explain.dart';
+import './details_page/details_tabbar.dart';
+import './details_page/detals_web.dart';
 
 
 class DetailsPage extends StatelessWidget {
@@ -33,13 +36,18 @@ class DetailsPage extends StatelessWidget {
         future: _getBackInfo(context),
         builder: (context,snapshot){
           if(snapshot.hasData){
-            return Container(
-              child: Column(
-                children: <Widget>[
-                  DetailTopArea(),
-                ],
-              ),
-            );
+            return  SingleChildScrollView(
+                // controller: controller,
+                child: Column(
+                  children: <Widget>[
+                    DetailTopArea(),
+                    DetailsExplain(),
+                    DetailsTabBar(),
+                    DetailsWeb(),
+                  ],                    
+                ),
+              );
+          
           }else{
             return Text('加载中');
           }
