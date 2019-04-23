@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../provide/details_info.dart';
 
-class DetailTopArea extends StatelessWidget {
+class DetailsTopArea extends StatelessWidget {
 
 
   @override
