@@ -12,7 +12,7 @@ import './provide/details_info.dart';
 
 import './routers/routes.dart';
 import './routers/application.dart';
-
+import './provide/cart.dart';
 
 
 // void main() => runApp(MyApp());
@@ -23,11 +23,13 @@ void main(){
   var categoryGoodsListProvide = CategoryGoodsListProvide();
   var childCategory = ChildCategory();
   var detailsInfoProvide = DetailsInfoProvide();
+  var cartProvide = CartProvide();
   providers
     ..provide(Provider<Counter>.value(counter))
     ..provide(Provider<ChildCategory>.value(childCategory))
     ..provide(Provider<CategoryGoodsListProvide>.value(categoryGoodsListProvide))
-    ..provide(Provider<DetailsInfoProvide>.value(detailsInfoProvide));
+    ..provide(Provider<DetailsInfoProvide>.value(detailsInfoProvide))
+    ..provide(Provider<CartProvide>.value(cartProvide));
   runApp(ProviderNode(child: MyApp(),providers: providers,));
 }
 
