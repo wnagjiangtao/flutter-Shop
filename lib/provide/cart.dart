@@ -18,11 +18,18 @@ class CartProvide with ChangeNotifier{
     List<Map> tempList = (temp as List).cast();
     var isHave = false;
     int ival = 0;
+
+    allPrice = 0;
+    allGoodsCount = 0;
     tempList.forEach((item){
       if(item['goodList'] == goodsId){
         tempList[ival]['count'] = item['count']+1;
         cartList[ival].count++;
         isHave = true;
+      }
+      if(item['isCheck']){
+        allPrice+= (cartList[ival].price* cartList[ival].count);
+        allGoodsCount+= cartList[ival].count;
       }
       ival++;
     });
@@ -38,6 +45,8 @@ class CartProvide with ChangeNotifier{
       print('herre');
       tempList.add(newGoods);
       cartList.add(new CartInfoMode.fromJson(newGoods));
+      allPrice+= (count * price);
+      allGoodsCount+=count;
     }
     cartString = json.encode(tempList).toString();
     print(cartString);
